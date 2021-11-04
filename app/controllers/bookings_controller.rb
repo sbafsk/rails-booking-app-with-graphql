@@ -1,22 +1,12 @@
+# frozen_string_literal: true
+
+# BookingController
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[ show edit update destroy ]
 
   # GET /bookings or /bookings.json
   def index
-    @bookings = Booking.all
-  end
-
-  # GET /bookings/1 or /bookings/1.json
-  def show
-  end
-
-  # GET /bookings/new
-  def new
-    @booking = Booking.new
-  end
-
-  # GET /bookings/1/edit
-  def edit
+    # index
   end
 
   # POST /bookings or /bookings.json
@@ -57,13 +47,13 @@ class BookingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_booking
-      @booking = Booking.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_booking
+    @booking = Booking.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def booking_params
-      params.require(:booking).permit(:id, :date_from, :date_to)
-    end
+  # Only allow a list of trusted parameters through.
+  def booking_params
+    params.require(:booking).permit(:id, :date_from, :date_to, :user_name, :user_mail, :code, :room_id)
+  end
 end
