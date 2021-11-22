@@ -1,13 +1,14 @@
 import React from "react"
-import { Box, Button } from "@material-ui/core"
+import { Box, makeStyles, Button } from "@material-ui/core"
 
-import { useBookings } from "../api/BookingContext"
+import { useBookings } from "../../api/BookingContext"
 
-const Bookings = () => {
+const useStyles = makeStyles((theme) => {})
+
+export default function BookingTable() {
+  const classes = useStyles()
   const { bookings, getBookings } = useBookings()
-
   console.log(bookings)
-
   return (
     <Box>
       <Button onClick={() => getBookings()}>Get Bookings</Button>
@@ -24,5 +25,3 @@ const Bookings = () => {
     </Box>
   )
 }
-
-export default Bookings
