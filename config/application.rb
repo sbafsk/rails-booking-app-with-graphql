@@ -18,5 +18,8 @@ module CoworkReservas
     #
     config.time_zone = "America/Montevideo"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.react.server_renderer_extensions = ["jsx", "js"]
+    config.react.server_renderer_directories = ["/app/assets/javascripts", "/app/javascript/"]
   end
 end
