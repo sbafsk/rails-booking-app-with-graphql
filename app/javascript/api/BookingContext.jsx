@@ -1,6 +1,6 @@
-import React, { useReducer, useContext, useCallback, useEffect } from "react"
+import React, { useReducer, useContext, useCallback } from "react"
 
-import { REQUEST_BOOKINGS, SET_LOADING, SET_ERROR } from "./types"
+import { REQUEST_BOOKINGS, SET_LOADING, ADD_BOOKING } from "./action_types"
 
 const BookingContext = React.createContext()
 
@@ -10,8 +10,7 @@ export const useBookings = () => {
 
 const initialState = {
   bookings: [],
-  loading: true,
-  error: false
+  loading: false
 }
 
 const reducer = (state, action) => {
@@ -23,16 +22,17 @@ const reducer = (state, action) => {
         bookings: payload,
         loading: false
       }
+    case ADD_BOOKING:
+      return {
+        ...state,
+        bookings: { ...state.bookings, payload }
+      }
     case SET_LOADING:
       return {
         ...state,
         loading: payload
       }
-    case SET_ERROR:
-      return {
-        ...state,
-        error: payload
-      }
+
     default:
       break
   }
@@ -66,16 +66,15 @@ export const BookingProvider = ({ children }) => {
     }
   }, [])
 
-  const setError = (error) => {
-    dispatch({ type: SET_ERROR, payload: error })
+  const addBooking = (booking) => {
+    console.log("adding booking", booking)
   }
 
   const value = {
     bookings: state.bookings,
-    loading: state.loading,
-    error: state.error,
+    isLoading: state.loading,
     getBookings,
-    setError
+    addBooking
   }
 
   return (
