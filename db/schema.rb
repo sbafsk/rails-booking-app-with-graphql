@@ -16,20 +16,12 @@ ActiveRecord::Schema.define(version: 2021_10_28_202134) do
   enable_extension "plpgsql"
 
   create_table "bookings", force: :cascade do |t|
-    t.datetime "date_from", null: false
-    t.datetime "date_to", null: false
+    t.date "day", null: false
+    t.time "from_time", null: false
+    t.time "to_time", null: false
     t.string "user_name", null: false
     t.string "user_mail", null: false
-    t.integer "code", null: false
-    t.bigint "room_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["room_id"], name: "index_bookings_on_room_id"
-  end
-
-  create_table "rooms", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description", null: false
+    t.string "room", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
