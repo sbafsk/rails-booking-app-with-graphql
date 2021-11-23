@@ -1,7 +1,8 @@
 class Booking < ApplicationRecord
 
-  belongs_to :room
-  validates :date_to, :date_from, :user_name, :user_mail, :code, presence: true
+  # way to manage props with something like type interface.
+
+  validates :day, :from_time, :to_time, :user_name, :user_mail, :room presence: true
   # check date validations
 
 

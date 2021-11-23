@@ -7,6 +7,7 @@ class BookingsController < ApplicationController
   # GET /bookings or /bookings.json
   def index
     # index
+
   end
 
   # POST /bookings or /bookings.json
@@ -54,6 +55,6 @@ class BookingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def booking_params
-    params.require(:booking).permit(:id, :date_from, :date_to, :user_name, :user_mail, :code, :room_id)
+    params.require(:booking).permit(:id, :day, :from_time, :to_time, :user_name, :user_mail, :room)
   end
 end
