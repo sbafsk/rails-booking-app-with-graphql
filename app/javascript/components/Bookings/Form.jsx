@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   makeStyles,
   Button,
@@ -22,12 +22,22 @@ const rooms = [
 const useStyles = makeStyles((theme) => ({
   form: {
     margin: theme.spacing(2),
-    width: "45%",
     display: "flex",
-    flexDirection: "column",
     padding: "20px",
+    flexDirection: "column",
+    width: "45%",
     "& .MuiFormControl-root": {
       margin: "15px 0"
+    }
+  },
+  dateInputs: {
+    display: "flex",
+    justifyContent: "space-between",
+    "& div": {
+      marginRight: "5px"
+    },
+    "& input": {
+      fontSize: "14px"
     }
   }
 }))
@@ -35,14 +45,13 @@ const useStyles = makeStyles((theme) => ({
 export default function BookingForm() {
   const classes = useStyles()
 
-  const { addBooking, isLoading } = useBookings()
+  const { addBooking, filterBookingsByDay, isLoading } = useBookings()
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values)
-    console.log(JSON.stringify(values))
 
     try {
-      //const result = await addBooking(values)
+      const result = await addBooking(values)
       if (!result) throw Error("Error al registrar la reserva.")
       // setModalData({
       //   type: "success",
@@ -77,9 +86,14 @@ export default function BookingForm() {
       })}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, values, handleChange, touched, errors }) => (
-        <Form className={classes.form}>
-          <Box>
+      {({ isSubmitting, values, handleChange, touched, errors }) => {
+        const day = values.day
+        useEffect(() => {
+          day !== "" && filterBookingsByDay(day)
+        }, [day])
+
+        return (
+          <Form className={classes.form}>
             <FormControl variant="outlined">
               <InputLabel id="room">Sala</InputLabel>
               <Select
@@ -101,77 +115,80 @@ export default function BookingForm() {
                 })}
               </Select>
             </FormControl>
+            <Box className={classes.dateInputs}>
+              <TextField
+                id="day"
+                label="Día"
+                type="date"
+                name="day"
+                variant="outlined"
+                value={values.day}
+                onChange={handleChange("day")}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+              <TextField
+                id="fromTime"
+                name="fromTime"
+                label="Desde"
+                type="time"
+                variant="outlined"
+                value={values.fromTime}
+                onChange={handleChange("fromTime")}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  step: 1800 // 30 min
+                }}
+              />
+              <TextField
+                id="toTime"
+                name="toTime"
+                label="Hasta"
+                type="time"
+                variant="outlined"
+                value={values.toTime}
+                onChange={handleChange("toTime")}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  step: 1800 // 30 min
+                }}
+              />
+            </Box>
             <TextField
-              id="day"
-              label="Día"
-              type="date"
-              name="day"
-              value={values.day}
-              onChange={handleChange("day")}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Box>
-          <Box>
-            <TextField
-              id="fromTime"
-              name="fromTime"
-              label="Desde"
-              type="time"
-              value={values.fromTime}
-              onChange={handleChange("fromTime")}
-              InputLabelProps={{
-                shrink: true
-              }}
-              inputProps={{
-                step: 1800 // 30 min
-              }}
+              id="name"
+              name="name"
+              label="Nombre"
+              variant="outlined"
+              value={values.name}
+              onChange={handleChange("name")}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
             />
             <TextField
-              id="toTime"
-              name="toTime"
-              label="Hasta"
-              type="time"
-              value={values.toTime}
-              onChange={handleChange("toTime")}
-              InputLabelProps={{
-                shrink: true
-              }}
-              inputProps={{
-                step: 1800 // 30 min
-              }}
+              id="email"
+              name="email"
+              label="Email"
+              variant="outlined"
+              value={values.email}
+              onChange={handleChange("email")}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
             />
-          </Box>
-          <TextField
-            id="name"
-            name="name"
-            label="Nombre"
-            variant="outlined"
-            value={values.name}
-            onChange={handleChange}
-            error={touched.name && Boolean(errors.name)}
-            helperText={touched.name && errors.name}
-          />
-          <TextField
-            id="email"
-            name="email"
-            label="Email"
-            variant="outlined"
-            value={values.email}
-            onChange={handleChange}
-            error={touched.email && Boolean(errors.email)}
-            helperText={touched.email && errors.email}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={isSubmitting || isLoading}
-          >
-            Guardar
-          </Button>
-        </Form>
-      )}
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting || isLoading}
+            >
+              Guardar
+            </Button>
+          </Form>
+        )
+      }}
     </Formik>
   )
 }

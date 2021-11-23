@@ -7,11 +7,10 @@ const useStyles = makeStyles((theme) => {})
 
 export default function BookingTable() {
   const classes = useStyles()
-  const { bookings, getBookings } = useBookings()
-  console.log(bookings)
+  const { bookings } = useBookings()
+  console.log("table", bookings)
   return (
     <Box>
-      <Button onClick={() => getBookings()}>Get Bookings</Button>
       <ul>
         {!!bookings &&
           bookings.map((b) => {
