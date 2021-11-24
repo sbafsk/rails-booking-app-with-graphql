@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'bookings/index'
-      post 'booking/create'
-      delete 'booking/:id', to: 'booking#destroy'
+      post 'bookings/create'
+      delete 'bookings/:id', to: 'bookings#destroy'
     end
   end
 
