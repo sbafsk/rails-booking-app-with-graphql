@@ -7,13 +7,12 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    height: "100vh"
+    justifyContent: "center"
   },
   mainBox: {
-    border: "solid 1px #111",
+    border: "solid 1px #666",
     borderRadius: "15px",
-    height: theme.spacing(80),
+    minHeight: theme.spacing(80),
     width: theme.spacing(120)
   },
   title: {
@@ -26,16 +25,14 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles()
   return (
-    <>
-      <Container className={classes.wrapper}>
-        <Box className={classes.mainBox}>
-          <Typography className={classes.title} as="h1">
-            FIC - Cowork | Reserva Salas
-          </Typography>
-          <Bookings />
-        </Box>
-      </Container>
-    </>
+    <Container className={classes.wrapper}>
+      <Box className={classes.mainBox}>
+        <Typography className={classes.title} variant="h1">
+          FIC - Cowork | Reserva Salas
+        </Typography>
+        <Bookings />
+      </Box>
+    </Container>
   )
 }
 

@@ -9,8 +9,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     height: "100%",
     width: "100%",
-    // fix responsive...
-    [theme.breakpoints.down("md")]: { flexDirection: "column" }
+    justifyContent: "center",
+    [theme.breakpoints.down("md")]: { flexDirection: "column" },
+    [theme.breakpoints.up("md")]: { flexDirection: "row" }
   }
 }))
 

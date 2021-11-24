@@ -12,7 +12,7 @@ import {
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
 
-import { useBookings } from "../../api/BookingContext"
+import { useBookings } from "../../context"
 
 const rooms = [
   { name: "Sala 1", value: "sala-1" },
@@ -21,11 +21,11 @@ const rooms = [
 
 const useStyles = makeStyles((theme) => ({
   form: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(3),
     display: "flex",
-    padding: "20px",
     flexDirection: "column",
-    width: "45%",
+    [theme.breakpoints.down("md")]: { maxWidth: "90%" },
+    [theme.breakpoints.up("md")]: { maxWidth: "45%" },
     "& .MuiFormControl-root": {
       margin: "15px 0"
     }
@@ -47,7 +47,7 @@ export default function BookingForm() {
 
   const { addBooking, filterBookingsByDay, isLoading } = useBookings()
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, actions) => {
     console.log(values)
 
     try {
@@ -87,10 +87,10 @@ export default function BookingForm() {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, values, handleChange, touched, errors }) => {
-        const day = values.day
-        useEffect(() => {
-          day !== "" && filterBookingsByDay(day)
-        }, [day])
+        // const day = values.day
+        // useEffect(() => {
+        //   day !== "" && filterBookingsByDay(day)
+        // }, [day])
 
         return (
           <Form className={classes.form}>
