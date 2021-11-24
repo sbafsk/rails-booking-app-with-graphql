@@ -20,5 +20,4 @@ export const createBooking = async (booking: IBooking) => {
   if (!response.ok) throw new Error("Network error.")
   const data = await response.json()
   console.log(data)
-  debugger
 }
