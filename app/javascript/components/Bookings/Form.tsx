@@ -13,6 +13,7 @@ import { Formik, Form } from "formik"
 import * as Yup from "yup"
 
 import { useBookings } from "../../context"
+import { IFormBooking } from "../../types"
 
 const rooms = [
   { name: "Sala 1", value: "sala-1" },
@@ -47,12 +48,10 @@ export default function BookingForm() {
 
   const { addBooking, filterBookingsByDay, isLoading } = useBookings()
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (values: IFormBooking, actions) => {
     console.log(values)
-
     try {
-      const result = await addBooking(values)
-      if (!result) throw Error("Error al registrar la reserva.")
+      await addBooking(values)
       // setModalData({
       //   type: "success",
       //   tittle: "Exito",
@@ -72,17 +71,20 @@ export default function BookingForm() {
   return (
     <Formik
       initialValues={{
-        room: "",
-        name: "",
-        email: "",
-        day: "",
-        fromTime: "",
-        toTime: ""
+        room: "sala-1",
+        name: "juan",
+        email: "1@1.com",
+        day: "2021-11-25",
+        fromTime: "16:00",
+        toTime: "17:00"
       }}
       validationSchema={Yup.object({
-        room: Yup.string().required("Sala es requerida."),
+        room: Yup.string().required("Sala requerida."),
         name: Yup.string().required("Nombre es requerido."),
-        email: Yup.string().email().required("Email es requerido")
+        email: Yup.string().email().required("Email es requerido."),
+        day: Yup.string().required("Dia es requerida."),
+        fromTime: Yup.string().required("Hora desde es requerido."),
+        toTime: Yup.string().required("Hora hasta es requerido.")
       })}
       onSubmit={handleSubmit}
     >
