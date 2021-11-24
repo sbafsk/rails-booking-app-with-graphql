@@ -13,7 +13,7 @@ import { Formik, Form } from "formik"
 import * as Yup from "yup"
 
 import { useBookings } from "../../context"
-import { IFormBooking } from "../../types"
+import { IBookingForm } from "../../types"
 
 const rooms = [
   { name: "Sala 1", value: "sala-1" },
@@ -48,7 +48,7 @@ export default function BookingForm() {
 
   const { addBooking, filterBookingsByDay, isLoading } = useBookings()
 
-  const handleSubmit = async (values: IFormBooking, actions) => {
+  const handleSubmit = async (values: IBookingForm, actions) => {
     console.log(values)
     try {
       await addBooking(values)
