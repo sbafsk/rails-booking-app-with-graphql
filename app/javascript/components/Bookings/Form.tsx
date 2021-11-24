@@ -59,6 +59,7 @@ export default function BookingForm() {
     try {
       await addBooking(values)
       debugger
+      // DIALOG: WORK IN PROGRESS...
       openDialog({
         title: "Exito",
         message: "Reserva guardada."
@@ -99,6 +100,7 @@ export default function BookingForm() {
         //   day !== "" && filterBookingsByDay(day)
         // }, [day])
 
+        // TIME-STEPER: WORK IN PROGRESS...
         useEffect(() => {
           setTimeStep(values.fromTime)
         }, [values.fromTime])
