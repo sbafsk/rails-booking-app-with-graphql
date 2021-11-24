@@ -2,6 +2,9 @@ import React from "react"
 import { Box, Container, Typography, makeStyles } from "@material-ui/core"
 
 import Bookings from "./Bookings/Bookings"
+import Notification from "./Modal/Notification"
+
+import { useBookings } from "../context"
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -23,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = () => {
+  const { dialogProps } = useBookings()
+
   const classes = useStyles()
   return (
     <Container className={classes.wrapper}>
@@ -31,6 +36,7 @@ const Home = () => {
           FIC - Cowork | Reserva Salas
         </Typography>
         <Bookings />
+        <Notification open={!!dialogProps} {...dialogProps} />
       </Box>
     </Container>
   )
