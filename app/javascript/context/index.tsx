@@ -8,12 +8,23 @@ import React, {
 
 import { reducer } from "./reducer"
 
-import { requestBookings, createBooking } from "../api/booking"
+import { getBookings, postBooking } from "../api/booking"
 
-import { BookingActions, IBookingState, IBooking, IBookingForm } from "../types"
+import {
+  BookingActions,
+  IBookingState,
+  IBooking,
+  IBookingForm,
+  IDialogProps
+} from "../types"
 
-const { REQUEST_BOOKINGS, FILTER_BOOKINGS, SET_LOADING, SET_ERROR } =
-  BookingActions
+const {
+  REQUEST_BOOKINGS,
+  FILTER_BOOKINGS,
+  SET_LOADING,
+  SET_ERROR,
+  SET_DIALOG
+} = BookingActions
 
 const BookingContext = createContext(undefined)
 
@@ -25,17 +36,18 @@ const initialState: IBookingState = {
   bookings: [],
   loading: false,
   selectedDay: null,
-  error: null
+  error: null,
+  dialog: null
 }
 
 export const BookingProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const getBookings = useCallback(async () => {
+  const requestBookings = useCallback(async () => {
     dispatch({ type: SET_LOADING, payload: true })
 
     try {
-      const bookings = await requestBookings()
+      const bookings = await getBookings()
       const dateFormatedBookings = bookings.map((b) => {
         return {
           ...b,
@@ -61,8 +73,8 @@ export const BookingProvider = ({ children }) => {
       room: room
     }
     try {
-      createBooking(newBooking)
-      await getBookings()
+      postBooking(newBooking)
+      await requestBookings()
     } catch (error) {
       console.log(error)
       setError(error)
@@ -78,18 +90,28 @@ export const BookingProvider = ({ children }) => {
     dispatch({ type: SET_ERROR, payload: error })
   }
 
+  const openDialog = (dialogProps: IDialogProps) => {
+    debugger
+    dispatch({ type: SET_DIALOG, payload: dialogProps })
+  }
+
+  const closeDialog = () => {
+    dispatch({ type: SET_DIALOG, payload: null })
+  }
+
   useEffect(() => {
-    getBookings()
-  }, [getBookings])
+    requestBookings()
+  }, [requestBookings])
 
   const value = {
     bookings: state.bookings,
     isLoading: state.loading,
     selectedDay: state.selectedDay,
-    getBookings,
     addBooking,
     filterBookingsByDay,
-    setError
+    setError,
+    openDialog,
+    closeDialog
   }
 
   return (
