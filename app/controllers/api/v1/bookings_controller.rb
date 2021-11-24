@@ -29,8 +29,9 @@ class Api::V1::BookingsController < ApplicationController
   # POST /bookings
   # POST /bookings.json
   def create
-    @booking = Booking.new(booking_params)
+    p 'create', booking_params
 
+    @booking = Booking.new(booking_params)
 
     if @booking.save
       render json: @booking
@@ -60,6 +61,6 @@ class Api::V1::BookingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def booking_params
-      params..require(:booking).permit(:id, :date_from, :date_to, :user_name, :user_mail, :code)
+      params..require(:booking).permit(:id, :from, :to, :user_name, :user_mail, :room)
     end
 end
