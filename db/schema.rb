@@ -16,9 +16,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_202134) do
   enable_extension "plpgsql"
 
   create_table "bookings", force: :cascade do |t|
-    t.date "day", null: false
-    t.time "from_time", null: false
-    t.time "to_time", null: false
+    t.datetime "from", null: false
+    t.datetime "to", null: false
     t.string "user_name", null: false
     t.string "user_mail", null: false
     t.string "room", null: false
