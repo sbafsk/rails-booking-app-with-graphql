@@ -43,40 +43,45 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const setTimeStep = (time: string): string => {
+  const minutes = Number(time.slice(3, 5))
+  return time.replace(minutes.toString(), minutes > 30 ? "30" : "00")
+}
+
 export default function BookingForm() {
   const classes = useStyles()
 
-  const { addBooking, filterBookingsByDay, isLoading } = useBookings()
+  const { addBooking, filterBookingsByDay, isLoading, openDialog } =
+    useBookings()
 
   const handleSubmit = async (values: IBookingForm, actions) => {
     console.log(values)
     try {
       await addBooking(values)
-      // setModalData({
-      //   type: "success",
-      //   tittle: "Exito",
-      //   message: "Reserva guardada!"
-      // })
-      actions.resetForm()
+      debugger
+      openDialog({
+        title: "Exito",
+        message: "Reserva guardada."
+      })
     } catch (error) {
-      console.log(error)
-      // setModalData({
-      //   type: "error",
-      //   title: "Error",
-      //   message: error.message
-      // })
+      openDialog({
+        title: "Error",
+        message: "Reserva no pudo ser guardada."
+      })
     }
+
+    actions.resetForm()
   }
 
   return (
     <Formik
       initialValues={{
         room: "sala-1",
-        name: "juan",
+        name: "asd",
         email: "1@1.com",
         day: "2021-11-25",
-        fromTime: "16:00",
-        toTime: "17:00"
+        fromTime: "10:00",
+        toTime: "12:00"
       }}
       validationSchema={Yup.object({
         room: Yup.string().required("Sala requerida."),
@@ -93,6 +98,14 @@ export default function BookingForm() {
         // useEffect(() => {
         //   day !== "" && filterBookingsByDay(day)
         // }, [day])
+
+        useEffect(() => {
+          setTimeStep(values.fromTime)
+        }, [values.fromTime])
+
+        useEffect(() => {
+          setTimeStep(values.toTime)
+        }, [values.toTime])
 
         return (
           <Form className={classes.form}>
@@ -142,7 +155,7 @@ export default function BookingForm() {
                   shrink: true
                 }}
                 inputProps={{
-                  step: 1800 // 30 min
+                  step: 900 // 15 min
                 }}
               />
               <TextField
@@ -157,7 +170,7 @@ export default function BookingForm() {
                   shrink: true
                 }}
                 inputProps={{
-                  step: 1800 // 30 min
+                  step: 900 // 15 min
                 }}
               />
             </Box>
