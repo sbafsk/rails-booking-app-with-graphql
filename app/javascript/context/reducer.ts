@@ -1,6 +1,6 @@
 import { BookingActions, IBookingState } from "../types"
 
-const { REQUEST_BOOKINGS, ADD_BOOKING, FILTER_BOOKINGS, SET_LOADING } =
+const { REQUEST_BOOKINGS, FILTER_BOOKINGS, SET_LOADING, SET_ERROR } =
   BookingActions
 
 export const reducer = (state: IBookingState, action) => {
@@ -12,12 +12,6 @@ export const reducer = (state: IBookingState, action) => {
         bookings: payload,
         loading: false
       }
-    case ADD_BOOKING:
-      return {
-        ...state,
-        bookings: { ...state.bookings, payload },
-        loading: false
-      }
     case FILTER_BOOKINGS:
       return {
         ...state,
@@ -27,6 +21,11 @@ export const reducer = (state: IBookingState, action) => {
       return {
         ...state,
         loading: payload
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: payload
       }
     default:
       break
