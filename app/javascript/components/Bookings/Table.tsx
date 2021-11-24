@@ -40,20 +40,26 @@ export default function BookingTable() {
         </TableHead>
         <TableBody>
           {!!bookings &&
-            bookings.map((b: IBooking) => (
-              <TableRow key={b.id}>
-                <TableCell align="right">
-                  {b.to.toDateString().slice(4, 10)}
-                </TableCell>
-                <TableCell align="right">{`${b.from
-                  .toTimeString()
-                  .slice(0, 5)} a ${b.to
-                  .toTimeString()
-                  .slice(0, 5)}`}</TableCell>
-                <TableCell align="right">{b.user_name}</TableCell>
-                <TableCell align="right">{b.room}</TableCell>
-              </TableRow>
-            ))}
+            bookings.map((b: IBooking) => {
+              if (
+                selectedDay === null ||
+                b.from.toDateString() === selectedDay.toDateString()
+              )
+                return (
+                  <TableRow key={b.id}>
+                    <TableCell align="right">
+                      {b.from.toDateString().slice(4, 10)}
+                    </TableCell>
+                    <TableCell align="right">{`${b.from
+                      .toTimeString()
+                      .slice(0, 5)} a ${b.to
+                      .toTimeString()
+                      .slice(0, 5)}`}</TableCell>
+                    <TableCell align="right">{b.user_name}</TableCell>
+                    <TableCell align="right">{b.room}</TableCell>
+                  </TableRow>
+                )
+            })}
         </TableBody>
       </Table>
     </TableContainer>
