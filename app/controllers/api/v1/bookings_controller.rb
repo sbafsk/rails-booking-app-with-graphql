@@ -61,6 +61,6 @@ class Api::V1::BookingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def booking_params
-      params..require(:booking).permit(:id, :from, :to, :user_name, :user_mail, :room)
+      params.require(:booking).permit(:id, :from, :to, :user_name, :user_mail, :room)
     end
 end
