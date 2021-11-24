@@ -10,9 +10,9 @@ import { reducer } from "./reducer"
 
 import { requestBookings, createBooking } from "../api/booking"
 
-import { BookingActions, IBookingState, IBooking } from "../types"
+import { BookingActions, IBookingState, IBooking, IBookingForm } from "../types"
 
-const { REQUEST_BOOKINGS, ADD_BOOKING, FILTER_BOOKINGS, SET_LOADING } =
+const { REQUEST_BOOKINGS, FILTER_BOOKINGS, SET_LOADING, SET_ERROR } =
   BookingActions
 
 const BookingContext = createContext(undefined)
@@ -24,7 +24,8 @@ export const useBookings = () => {
 const initialState: IBookingState = {
   bookings: [],
   loading: false,
-  selectedDay: ""
+  selectedDay: null,
+  error: null
 }
 
 export const BookingProvider = ({ children }) => {
@@ -45,25 +46,36 @@ export const BookingProvider = ({ children }) => {
       dispatch({ type: REQUEST_BOOKINGS, payload: dateFormatedBookings })
     } catch (error) {
       console.log(error)
-      return false
+      setError(error)
     }
   }, [])
 
-  const addBooking = async (booking: IBooking) => {
-    console.log("adding booking", booking)
+  const addBooking = async (booking: IBookingForm) => {
     dispatch({ type: SET_LOADING, payload: true })
+    const { day, fromTime, toTime, name, email, room } = booking
+    const newBooking: IBooking = {
+      from: new Date(`${day}T${fromTime}:00`),
+      to: new Date(`${day}T${toTime}:00`),
+      user_name: name,
+      user_mail: email,
+      room: room
+    }
     try {
-      createBooking(booking)
-      dispatch({ type: ADD_BOOKING, payload: booking })
+      createBooking(newBooking)
+      await getBookings()
     } catch (error) {
       console.log(error)
-      return false
+      setError(error)
     }
   }
 
-  const filterBookingsByDay = (day: string) => {
-    console.log(day)
-    dispatch({ type: FILTER_BOOKINGS, payload: day })
+  const filterBookingsByDay = (date: string) => {
+    console.log(date)
+    dispatch({ type: FILTER_BOOKINGS, payload: new Date(date) })
+  }
+
+  const setError = (error) => {
+    dispatch({ type: SET_ERROR, payload: error })
   }
 
   useEffect(() => {
@@ -76,7 +88,8 @@ export const BookingProvider = ({ children }) => {
     selectedDay: state.selectedDay,
     getBookings,
     addBooking,
-    filterBookingsByDay
+    filterBookingsByDay,
+    setError
   }
 
   return (
