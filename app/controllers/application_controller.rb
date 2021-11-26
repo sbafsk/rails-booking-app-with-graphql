@@ -3,4 +3,9 @@ class ApplicationController < ActionController::Base
   # avoid having to validate the tokens each time we perform a request.
   # ???
   protect_from_forgery with: :null_session
+
+  def index
+    # index
+  end
+
 end

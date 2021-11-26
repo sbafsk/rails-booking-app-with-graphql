@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'bookings#index'
+  root 'application#index'
   # resources :users
   # resources :bookings
   # resources :rooms
