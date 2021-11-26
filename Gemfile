@@ -58,5 +58,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # React-Rails gem
 gem 'react-rails'
 
+gem 'sinatra'
+
+
 
 
