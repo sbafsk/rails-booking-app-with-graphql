@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
-  Box,
   makeStyles,
   Table,
   TableBody,
@@ -8,8 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Toolbar,
+  Typography
 } from "@material-ui/core"
+import moment from "moment"
 
 import { useBookings } from "../../context"
 
@@ -23,19 +24,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+moment.locale("es")
+
 export default function BookingTable() {
   const classes = useStyles()
-  const { bookings, selectedDay } = useBookings()
-  console.log("table", bookings)
+  const { bookings, requestBookings, selectedDay } = useBookings()
+
+  useEffect(() => {
+    requestBookings()
+  }, [])
+
   return (
     <TableContainer className={classes.tableContainer}>
+      <Typography align="center" variant="h6">
+        {moment().format("LL")}
+      </Typography>
       <Table aria-label="booking table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Dia</TableCell>
-            <TableCell align="right">Hora</TableCell>
-            <TableCell align="right">Usuario</TableCell>
-            <TableCell align="right">Sala</TableCell>
+            <TableCell>Hora</TableCell>
+            <TableCell>Usuario</TableCell>
+            <TableCell>Sala</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,16 +56,13 @@ export default function BookingTable() {
               )
                 return (
                   <TableRow key={b.id}>
-                    <TableCell align="right">
-                      {b.from.toDateString().slice(4, 10)}
+                    <TableCell>
+                      {moment(b.from).format("HH:MM")}
+                      {" a "}
+                      {moment(b.to).format("HH:MM")}
                     </TableCell>
-                    <TableCell align="right">{`${b.from
-                      .toTimeString()
-                      .slice(0, 5)} a ${b.to
-                      .toTimeString()
-                      .slice(0, 5)}`}</TableCell>
-                    <TableCell align="right">{b.user_name}</TableCell>
-                    <TableCell align="right">{b.room}</TableCell>
+                    <TableCell>{b.userName}</TableCell>
+                    <TableCell>{b.room}</TableCell>
                   </TableRow>
                 )
             })}
