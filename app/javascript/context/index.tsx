@@ -35,7 +35,7 @@ export const useBookings = (): IUseBookings => {
 const initialState: IBookingState = {
   bookings: [],
   loading: false,
-  selectedDay: null,
+  filter: { date: new Date(), room: "" },
   error: null,
   dialog: null
 }
@@ -77,9 +77,13 @@ export const BookingProvider = ({ children }) => {
     }
   }
 
-  const filterBookingsByDay = (date: string) => {
+  const filterBookingsByDay = (date: Date) => {
     console.log(date)
-    dispatch({ type: FILTER_BOOKINGS, payload: new Date(date) })
+    dispatch({ type: FILTER_BOOKINGS, payload: { date } })
+  }
+
+  const filterBookingsByRoom = (room: string) => {
+    dispatch({ type: FILTER_BOOKINGS, payload: { room } })
   }
 
   const setError = (error: null | string) => {
@@ -97,11 +101,12 @@ export const BookingProvider = ({ children }) => {
   const value = {
     bookings: state.bookings,
     isLoading: state.loading,
-    selectedDay: state.selectedDay,
+    filter: state.filter,
     dialogProps: state.dialog,
     addBooking,
     requestBookings,
     filterBookingsByDay,
+    filterBookingsByRoom,
     setError,
     openDialog,
     closeDialog

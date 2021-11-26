@@ -35,14 +35,14 @@ export interface IBookingForm {
 /**
  * @param IBooking[]
  * @param loading
- * @param selectedDay
+ * @param filter
  * @param error
  * @param dialog
  */
 export interface IBookingState {
   bookings: IBooking[]
   loading: boolean
-  selectedDay: Date
+  filter: { date: Date; room: string }
   error: null | string
   dialog: IDialogProps
 }
@@ -53,18 +53,19 @@ export interface IBookingState {
  * @param message
  */
 export interface IDialogProps {
-  title: string
+  severity: string
   message: string
 }
 
 /**
  * @param bookings: IBooking[]
  * @param isLoading: boolean
- * @param selectedDay: Date
+ * @param filter: { date: Date; room: string }
  * @param dialogProps: IDialogProps
  * @param addBooking: (booking: IBookingForm) => Promise<void>
- * @param  requestBookings: () => Promise<void>
+ * @param requestBookings: () => Promise<void>
  * @param filterBookingsByDay: (day: Date) => void
+ * @param filterBookingsByRoom: (room: string) => void
  * @param setError: (error: null | string) => void
  * @param openDialog: (dialogProps: IDialogProps) => void
  * @param closeDialog: () => void
@@ -73,11 +74,12 @@ export interface IDialogProps {
 export interface IUseBookings {
   bookings: IBooking[]
   isLoading: boolean
-  selectedDay: Date
+  filter: { date: Date; room: string }
   dialogProps: IDialogProps
   addBooking: (booking: IBookingForm) => Promise<void>
   requestBookings: () => Promise<void>
   filterBookingsByDay: (day: Date) => void
+  filterBookingsByRoom: (room: string) => void
   setError: (error: null | string) => void
   openDialog: (dialogProps: IDialogProps) => void
   closeDialog: () => void

@@ -20,7 +20,7 @@ export const reducer = (state: IBookingState, action) => {
     case FILTER_BOOKINGS:
       return {
         ...state,
-        selectedDay: payload
+        filter: { ...state.filter, ...payload }
       }
     case SET_LOADING:
       return {
