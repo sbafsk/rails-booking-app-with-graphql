@@ -11,7 +11,7 @@ export interface IBooking {
   from: Date
   to: Date
   userName: string
-  userEmail: string
+  userMail: string
   room: string
 }
 
