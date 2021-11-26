@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Toolbar,
   Typography
 } from "@material-ui/core"
 import moment from "moment"
@@ -32,10 +31,8 @@ export default function BookingTable() {
   const { date: dateFilter } = filter
 
   useEffect(() => {
-    bookings.length === 0 && requestBookings()
-  }, [bookings])
-
-  console.log(bookings)
+    requestBookings()
+  }, [])
 
   return (
     <TableContainer className={classes.tableContainer}>
