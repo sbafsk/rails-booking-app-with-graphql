@@ -50,11 +50,11 @@ export const BookingProvider = ({ children }) => {
       const formatedBookings = bookings.map((b) =>
         mapKeys(b, (val, key) => (key = camelCase(key)))
       )
-
       dispatch({ type: REQUEST_BOOKINGS, payload: formatedBookings })
     } catch (error) {
-      console.log(error)
+      console.error(error)
       setError(error)
+      throw error
     }
   }, [])
 
@@ -65,15 +65,16 @@ export const BookingProvider = ({ children }) => {
       from: new Date(`${day}T${fromTime}:00`),
       to: new Date(`${day}T${toTime}:00`),
       userName: name,
-      userEmail: email,
+      userMail: email,
       room: room
     }
     try {
-      postBooking(newBooking)
+      await postBooking(newBooking)
       await requestBookings()
     } catch (error) {
-      console.log(error)
+      console.error(error)
       setError(error)
+      throw error
     }
   }
 
