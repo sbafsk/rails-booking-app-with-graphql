@@ -34,8 +34,10 @@ const useStyles = makeStyles((theme) => ({
   dateInputs: {
     display: "flex",
     justifyContent: "space-between",
-    "& div": {
-      marginRight: "5px"
+    "& .MuiFormControl-root": {
+      "&:not(:first-child)": {
+        marginLeft: "7px"
+      }
     },
     "& input": {
       fontSize: "14px"
@@ -43,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const setTimeStep = (time: string): string => {
-  const minutes = Number(time.slice(3, 5))
-  return time.replace(minutes.toString(), minutes > 30 ? "30" : "00")
-}
+//todo: not working
+// const setTimeStep = (time: string): string => {
+//   const minutes = Number(time.slice(3, 5))
+//   return time.replace(minutes.toString(), minutes > 30 ? "30" : "00")
+// }
 
 export default function BookingForm() {
   const classes = useStyles()
@@ -58,8 +61,6 @@ export default function BookingForm() {
     console.log(values)
     try {
       await addBooking(values)
-      debugger
-      // DIALOG: WORK IN PROGRESS...
       openDialog({
         title: "Exito",
         message: "Reserva guardada."
@@ -101,13 +102,13 @@ export default function BookingForm() {
         // }, [day])
 
         // TIME-STEPER: WORK IN PROGRESS...
-        useEffect(() => {
-          setTimeStep(values.fromTime)
-        }, [values.fromTime])
+        // useEffect(() => {
+        //   setTimeStep(values.fromTime)
+        // }, [values.fromTime])
 
-        useEffect(() => {
-          setTimeStep(values.toTime)
-        }, [values.toTime])
+        // useEffect(() => {
+        //   setTimeStep(values.toTime)
+        // }, [values.toTime])
 
         return (
           <Form className={classes.form}>
