@@ -2,16 +2,16 @@
  * @param id?
  * @param from
  * @param to
- * @param user_name
- * @param user_mail
+ * @param userName
+ * @param userEmail
  * @param room
  */
 export interface IBooking {
   id?: number
   from: Date
   to: Date
-  user_name: string
-  user_mail: string
+  userName: string
+  userEmail: string
   room: string
 }
 
@@ -53,9 +53,34 @@ export interface IBookingState {
  * @param message
  */
 export interface IDialogProps {
-  open: boolean
   title: string
   message: string
+}
+
+/**
+ * @param bookings: IBooking[]
+ * @param isLoading: boolean
+ * @param selectedDay: Date
+ * @param dialogProps: IDialogProps
+ * @param addBooking: (booking: IBookingForm) => Promise<void>
+ * @param  requestBookings: () => Promise<void>
+ * @param filterBookingsByDay: (day: Date) => void
+ * @param setError: (error: null | string) => void
+ * @param openDialog: (dialogProps: IDialogProps) => void
+ * @param closeDialog: () => void
+ */
+
+export interface IUseBookings {
+  bookings: IBooking[]
+  isLoading: boolean
+  selectedDay: Date
+  dialogProps: IDialogProps
+  addBooking: (booking: IBookingForm) => Promise<void>
+  requestBookings: () => Promise<void>
+  filterBookingsByDay: (day: Date) => void
+  setError: (error: null | string) => void
+  openDialog: (dialogProps: IDialogProps) => void
+  closeDialog: () => void
 }
 
 export enum BookingActions {
