@@ -2,7 +2,7 @@ import React from "react"
 import { Box, Container, Typography, makeStyles } from "@material-ui/core"
 
 import Bookings from "./Bookings/Bookings"
-import Notification from "./Dialog/Notification"
+import Notification from "./UI/Notification"
 
 import { useBookings } from "../context"
 
