@@ -11,6 +11,9 @@ import {
 } from "@material-ui/core"
 import { Formik, Form } from "formik"
 import * as Yup from "yup"
+import moment from "moment"
+
+moment.locale("es")
 
 import { useBookings } from "../../context"
 import { IBookingForm } from "../../types"
@@ -29,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: { maxWidth: "45%" },
     "& .MuiFormControl-root": {
       margin: "15px 0"
+    },
+    "& .MuiFormHelperText-root": {
+      position: "absolute",
+      marginTop: "55px"
     }
   },
   dateInputs: {
@@ -45,30 +52,28 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-//todo: not working
-// const setTimeStep = (time: string): string => {
-//   const minutes = Number(time.slice(3, 5))
-//   return time.replace(minutes.toString(), minutes > 30 ? "30" : "00")
-// }
-
 export default function BookingForm() {
   const classes = useStyles()
 
-  const { addBooking, filterBookingsByDay, isLoading, openDialog } =
-    useBookings()
+  const {
+    addBooking,
+    filterBookingsByDay,
+    filterBookingsByRoom,
+    isLoading,
+    openDialog
+  } = useBookings()
 
   const handleSubmit = async (values: IBookingForm, actions) => {
-    console.log(values)
     try {
       await addBooking(values)
       openDialog({
-        title: "Exito",
+        severity: "success",
         message: "Reserva guardada."
       })
     } catch (error) {
       openDialog({
-        title: "Error",
-        message: "Reserva no pudo ser guardada."
+        severity: "error",
+        message: error.message
       })
     }
 
@@ -80,50 +85,43 @@ export default function BookingForm() {
       initialValues={{
         room: "sala-1",
         name: "asd",
-        email: "1@1.com",
-        day: "2021-11-25",
-        fromTime: "10:00",
-        toTime: "12:00"
+        email: "not@implemented.yet",
+        day: moment().format("yyyy-MM-DD"),
+        fromTime: "",
+        toTime: ""
       }}
       validationSchema={Yup.object({
-        room: Yup.string().required("Sala requerida."),
-        name: Yup.string().required("Nombre es requerido."),
-        email: Yup.string().email().required("Email es requerido."),
-        day: Yup.string().required("Dia es requerida."),
-        fromTime: Yup.string().required("Hora desde es requerido."),
-        toTime: Yup.string().required("Hora hasta es requerido.")
+        room: Yup.string().required("Requerido."),
+        name: Yup.string().required("Requerido."),
+        email: Yup.string().email().required("Requerido."),
+        day: Yup.string().required("Requerido."),
+        fromTime: Yup.string().required("Requerido."),
+        toTime: Yup.string().required("Requerido.")
       })}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, values, handleChange, touched, errors }) => {
-        // const day = values.day
-        // useEffect(() => {
-        //   day !== "" && filterBookingsByDay(day)
-        // }, [day])
+        useEffect(() => {
+          filterBookingsByDay(moment(values.day).toDate())
+        }, [values.day])
 
-        // TIME-STEPER: WORK IN PROGRESS...
-        // useEffect(() => {
-        //   setTimeStep(values.fromTime)
-        // }, [values.fromTime])
-
-        // useEffect(() => {
-        //   setTimeStep(values.toTime)
-        // }, [values.toTime])
+        useEffect(() => {
+          filterBookingsByRoom(values.room)
+        }, [values.room])
 
         return (
           <Form className={classes.form}>
             <FormControl variant="outlined">
-              <InputLabel id="room">Sala</InputLabel>
-              <Select
-                labelId="room"
+              <TextField
+                label="Sala"
+                select
                 id="room"
+                variant="outlined"
                 value={values.room}
                 onChange={handleChange("room")}
-                label="Sala"
+                error={touched.room && Boolean(errors.room)}
+                helperText={touched.room && errors.room}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {rooms.map((r) => {
                   return (
                     <MenuItem value={r.value} key={r.value}>
@@ -131,7 +129,7 @@ export default function BookingForm() {
                     </MenuItem>
                   )
                 })}
-              </Select>
+              </TextField>
             </FormControl>
             <Box className={classes.dateInputs}>
               <TextField
@@ -145,6 +143,8 @@ export default function BookingForm() {
                 InputLabelProps={{
                   shrink: true
                 }}
+                error={touched.day && Boolean(errors.day)}
+                helperText={touched.day && errors.day}
               />
               <TextField
                 id="fromTime"
@@ -160,6 +160,8 @@ export default function BookingForm() {
                 inputProps={{
                   step: 900 // 15 min
                 }}
+                error={touched.fromTime && Boolean(errors.fromTime)}
+                helperText={touched.fromTime && errors.fromTime}
               />
               <TextField
                 id="toTime"
@@ -175,6 +177,8 @@ export default function BookingForm() {
                 inputProps={{
                   step: 900 // 15 min
                 }}
+                error={touched.toTime && Boolean(errors.toTime)}
+                helperText={touched.toTime && errors.toTime}
               />
             </Box>
             <TextField
@@ -187,7 +191,7 @@ export default function BookingForm() {
               error={touched.name && Boolean(errors.name)}
               helperText={touched.name && errors.name}
             />
-            <TextField
+            {/* <TextField
               id="email"
               name="email"
               label="Email"
@@ -196,7 +200,7 @@ export default function BookingForm() {
               onChange={handleChange("email")}
               error={touched.email && Boolean(errors.email)}
               helperText={touched.email && errors.email}
-            />
+            /> */}
             <Button
               type="submit"
               variant="contained"
