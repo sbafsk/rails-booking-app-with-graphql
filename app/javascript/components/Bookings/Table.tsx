@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core"
 import moment from "moment"
 
+moment.locale("es")
+
 import { useBookings } from "../../context"
 
 import { IBooking } from "../../types"
@@ -24,20 +26,21 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-moment.locale("es")
-
 export default function BookingTable() {
   const classes = useStyles()
-  const { bookings, requestBookings, selectedDay } = useBookings()
+  const { bookings, requestBookings, filter } = useBookings()
+  const { date: dateFilter } = filter
 
   useEffect(() => {
-    requestBookings()
-  }, [])
+    bookings.length === 0 && requestBookings()
+  }, [bookings])
+
+  console.log(bookings)
 
   return (
     <TableContainer className={classes.tableContainer}>
       <Typography align="center" variant="h6">
-        {moment().format("LL")}
+        {moment(dateFilter).format("LL")}
       </Typography>
       <Table aria-label="booking table">
         <TableHead>
@@ -51,9 +54,8 @@ export default function BookingTable() {
           {!!bookings &&
             bookings.map((b: IBooking) => {
               if (
-                selectedDay === null ||
-                b.from.toDateString() === selectedDay.toDateString()
-              )
+                moment(b.from).format("LL") === moment(dateFilter).format("LL")
+              ) {
                 return (
                   <TableRow key={b.id}>
                     <TableCell>
@@ -62,9 +64,10 @@ export default function BookingTable() {
                       {moment(b.to).format("HH:MM")}
                     </TableCell>
                     <TableCell>{b.userName}</TableCell>
-                    <TableCell>{b.room}</TableCell>
+                    <TableCell>{b.room.replace("-", " ")}</TableCell>
                   </TableRow>
                 )
+              }
             })}
         </TableBody>
       </Table>
