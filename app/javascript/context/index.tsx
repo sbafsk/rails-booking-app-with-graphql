@@ -1,21 +1,20 @@
 import React, {
   useContext,
   createContext,
-  useEffect,
   useReducer,
   useCallback
 } from "react"
+import { mapKeys, camelCase } from "lodash"
 
 import { reducer } from "./reducer"
-
 import { getBookings, postBooking } from "../api/booking"
-
 import {
   BookingActions,
   IBookingState,
   IBooking,
   IBookingForm,
-  IDialogProps
+  IDialogProps,
+  IUseBookings
 } from "../types"
 
 const {
@@ -26,9 +25,10 @@ const {
   SET_DIALOG
 } = BookingActions
 
+// todo: why defaultValue is asked
 const BookingContext = createContext(undefined)
 
-export const useBookings = () => {
+export const useBookings = (): IUseBookings => {
   return useContext(BookingContext)
 }
 
@@ -45,17 +45,13 @@ export const BookingProvider = ({ children }) => {
 
   const requestBookings = useCallback(async () => {
     dispatch({ type: SET_LOADING, payload: true })
-
     try {
       const bookings = await getBookings()
-      const dateFormatedBookings = bookings.map((b) => {
-        return {
-          ...b,
-          from: new Date(b.from.toString()),
-          to: new Date(b.to.toString())
-        }
-      })
-      dispatch({ type: REQUEST_BOOKINGS, payload: dateFormatedBookings })
+      const formatedBookings = bookings.map((b) =>
+        mapKeys(b, (val, key) => (key = camelCase(key)))
+      )
+
+      dispatch({ type: REQUEST_BOOKINGS, payload: formatedBookings })
     } catch (error) {
       console.log(error)
       setError(error)
@@ -68,8 +64,8 @@ export const BookingProvider = ({ children }) => {
     const newBooking: IBooking = {
       from: new Date(`${day}T${fromTime}:00`),
       to: new Date(`${day}T${toTime}:00`),
-      user_name: name,
-      user_mail: email,
+      userName: name,
+      userEmail: email,
       room: room
     }
     try {
@@ -86,12 +82,11 @@ export const BookingProvider = ({ children }) => {
     dispatch({ type: FILTER_BOOKINGS, payload: new Date(date) })
   }
 
-  const setError = (error) => {
+  const setError = (error: null | string) => {
     dispatch({ type: SET_ERROR, payload: error })
   }
 
   const openDialog = (dialogProps: IDialogProps) => {
-    debugger
     dispatch({ type: SET_DIALOG, payload: dialogProps })
   }
 
@@ -99,15 +94,13 @@ export const BookingProvider = ({ children }) => {
     dispatch({ type: SET_DIALOG, payload: null })
   }
 
-  useEffect(() => {
-    requestBookings()
-  }, [requestBookings])
-
   const value = {
     bookings: state.bookings,
     isLoading: state.loading,
     selectedDay: state.selectedDay,
+    dialogProps: state.dialog,
     addBooking,
+    requestBookings,
     filterBookingsByDay,
     setError,
     openDialog,
