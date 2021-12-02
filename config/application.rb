@@ -1,6 +1,8 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails/all"
+require_relative 'boot'
+
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -16,10 +18,10 @@ module CoworkReservas
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    config.time_zone = "America/Montevideo"
+    config.time_zone = 'America/Montevideo'
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.react.server_renderer_extensions = ["jsx", "js"]
-    config.react.server_renderer_directories = ["/app/assets/javascripts", "/app/javascript/"]
+    config.react.server_renderer_extensions = %w[jsx js]
+    config.react.server_renderer_directories = ['/app/assets/javascripts', '/app/javascript/']
   end
 end

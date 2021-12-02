@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   namespace :api do
     namespace :v1 do
       get 'bookings/index'
@@ -10,10 +9,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'application#index'
-  # resources :users
-  # resources :bookings
-  # resources :rooms
+  root 'react#index'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
