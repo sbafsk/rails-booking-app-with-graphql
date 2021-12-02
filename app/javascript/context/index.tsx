@@ -1,5 +1,6 @@
 import React, {
   useContext,
+  useEffect,
   createContext,
   useReducer,
   useCallback
@@ -56,6 +57,10 @@ export const BookingProvider = ({ children }) => {
       setError(error)
       throw error
     }
+  }, [])
+
+  useEffect(() => {
+    requestBookings()
   }, [])
 
   const addBooking = async (booking: IBookingForm) => {

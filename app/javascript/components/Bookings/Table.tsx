@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import {
   makeStyles,
   Table,
@@ -27,12 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BookingTable() {
   const classes = useStyles()
-  const { bookings, requestBookings, filter } = useBookings()
+  const { bookings, filter } = useBookings()
   const { date: dateFilter } = filter
-
-  useEffect(() => {
-    requestBookings()
-  }, [])
 
   return (
     <TableContainer className={classes.tableContainer}>
@@ -56,9 +52,9 @@ export default function BookingTable() {
                 return (
                   <TableRow key={b.id}>
                     <TableCell>
-                      {moment(b.from).format("HH:MM")}
+                      {moment(b.from).format("HH:mm")}
                       {" a "}
-                      {moment(b.to).format("HH:MM")}
+                      {moment(b.to).format("HH:mm")}
                     </TableCell>
                     <TableCell>{b.userName}</TableCell>
                     <TableCell>{b.room.replace("-", " ")}</TableCell>

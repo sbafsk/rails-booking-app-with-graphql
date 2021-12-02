@@ -11,13 +11,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "100vh"
+    backgroundColor: "#000"
   },
   mainBox: {
     border: "solid 1px #666",
     borderRadius: "15px",
-    minHeight: theme.spacing(80),
-    width: theme.spacing(120)
+    width: theme.spacing(80),
+    backgroundColor: "#FFF",
+    [theme.breakpoints.down("md")]: {
+      height: theme.spacing(80)
+    },
+    [theme.breakpoints.up("md")]: {
+      height: theme.spacing(60)
+    }
   },
   title: {
     textAlign: "center",

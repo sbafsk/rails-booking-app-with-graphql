@@ -3,8 +3,6 @@ import {
   makeStyles,
   Button,
   FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   TextField,
   Box
@@ -40,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
   dateInputs: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     "& .MuiFormControl-root": {
       "&:not(:first-child)": {
         marginLeft: "7px"
       }
     },
     "& input": {
-      fontSize: "14px"
+      fontSize: "13px"
     }
   }
 }))
@@ -60,7 +58,8 @@ export default function BookingForm() {
     filterBookingsByDay,
     filterBookingsByRoom,
     isLoading,
-    openDialog
+    openDialog,
+    filter
   } = useBookings()
 
   const handleSubmit = async (values: IBookingForm, actions) => {
@@ -77,19 +76,21 @@ export default function BookingForm() {
       })
     }
 
-    actions.resetForm()
+    actions.resetForm(initialValues)
+  }
+
+  const initialValues: IBookingForm = {
+    room: "sala-1",
+    name: "asd",
+    email: "not@implemented.yet",
+    day: moment(filter.date).format("yyyy-MM-DD"),
+    fromTime: "",
+    toTime: ""
   }
 
   return (
     <Formik
-      initialValues={{
-        room: "sala-1",
-        name: "asd",
-        email: "not@implemented.yet",
-        day: moment().format("yyyy-MM-DD"),
-        fromTime: "",
-        toTime: ""
-      }}
+      initialValues={initialValues}
       validationSchema={Yup.object({
         room: Yup.string().required("Requerido."),
         name: Yup.string().required("Requerido."),
@@ -116,7 +117,7 @@ export default function BookingForm() {
                 label="Sala"
                 select
                 id="room"
-                variant="outlined"
+                // variant="outlined"
                 value={values.room}
                 onChange={handleChange("room")}
                 error={touched.room && Boolean(errors.room)}
@@ -137,7 +138,7 @@ export default function BookingForm() {
                 label="Día"
                 type="date"
                 name="day"
-                variant="outlined"
+                // variant="outlined"
                 value={values.day}
                 onChange={handleChange("day")}
                 InputLabelProps={{
@@ -151,7 +152,7 @@ export default function BookingForm() {
                 name="fromTime"
                 label="Desde"
                 type="time"
-                variant="outlined"
+                // variant="outlined"
                 value={values.fromTime}
                 onChange={handleChange("fromTime")}
                 InputLabelProps={{
@@ -168,7 +169,7 @@ export default function BookingForm() {
                 name="toTime"
                 label="Hasta"
                 type="time"
-                variant="outlined"
+                // variant="outlined"
                 value={values.toTime}
                 onChange={handleChange("toTime")}
                 InputLabelProps={{
@@ -185,7 +186,7 @@ export default function BookingForm() {
               id="name"
               name="name"
               label="Nombre"
-              variant="outlined"
+              //  variant="outlined"
               value={values.name}
               onChange={handleChange("name")}
               error={touched.name && Boolean(errors.name)}
@@ -195,7 +196,7 @@ export default function BookingForm() {
               id="email"
               name="email"
               label="Email"
-              variant="outlined"
+              // variant="outlined"
               value={values.email}
               onChange={handleChange("email")}
               error={touched.email && Boolean(errors.email)}
@@ -203,7 +204,7 @@ export default function BookingForm() {
             /> */}
             <Button
               type="submit"
-              variant="contained"
+              // variant="contained"
               disabled={isSubmitting || isLoading}
             >
               Guardar
