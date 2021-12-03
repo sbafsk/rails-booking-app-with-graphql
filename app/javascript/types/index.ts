@@ -64,8 +64,8 @@ export interface IDialogProps {
  * @param dialogProps: IDialogProps
  * @param addBooking: (booking: IBookingForm) => Promise<void>
  * @param requestBookings: () => Promise<void>
- * @param filterBookingsByDay: (day: Date) => void
- * @param filterBookingsByRoom: (room: string) => void
+ * @param setBookingsByDay: (day: Date) => void
+ * @param setBookingsByRoom: (room: string) => void
  * @param setError: (error: null | string) => void
  * @param openDialog: (dialogProps: IDialogProps) => void
  * @param closeDialog: () => void
@@ -78,8 +78,8 @@ export interface IUseBookings {
   dialogProps: IDialogProps
   addBooking: (booking: IBookingForm) => Promise<void>
   requestBookings: () => Promise<void>
-  filterBookingsByDay: (day: Date) => void
-  filterBookingsByRoom: (room: string) => void
+  setBookingsByDay: (day: Date) => void
+  setBookingsByRoom: (room: string) => void
   setError: (error: null | string) => void
   openDialog: (dialogProps: IDialogProps) => void
   closeDialog: () => void

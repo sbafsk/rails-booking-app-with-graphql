@@ -55,8 +55,8 @@ export default function BookingForm() {
 
   const {
     addBooking,
-    filterBookingsByDay,
-    filterBookingsByRoom,
+    setBookingsByDay,
+    setBookingsByRoom,
     isLoading,
     openDialog,
     filter
@@ -74,9 +74,15 @@ export default function BookingForm() {
         severity: "error",
         message: error.message
       })
+    } finally {
+      actions.setSubmitting(false)
+      actions.resetForm({
+        values: {
+          ...initialValues,
+          day: moment(filter.date).format("yyyy-MM-DD")
+        }
+      })
     }
-    actions.setSubmitting(false)
-    actions.resetForm(initialValues)
   }
 
   const initialValues: IBookingForm = {
@@ -103,11 +109,11 @@ export default function BookingForm() {
     >
       {({ isSubmitting, values, handleChange, touched, errors }) => {
         useEffect(() => {
-          filterBookingsByDay(moment(values.day).toDate())
+          setBookingsByDay(moment(values.day).toDate())
         }, [values.day])
 
         useEffect(() => {
-          filterBookingsByRoom(values.room)
+          setBookingsByRoom(values.room)
         }, [values.room])
 
         return (

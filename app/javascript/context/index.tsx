@@ -26,7 +26,6 @@ const {
   SET_DIALOG
 } = BookingActions
 
-// todo: why defaultValue is asked
 const BookingContext = createContext(undefined)
 
 export const useBookings = (): IUseBookings => {
@@ -84,11 +83,11 @@ export const BookingProvider = ({ children }) => {
     }
   }
 
-  const filterBookingsByDay = (date: Date) => {
+  const setBookingsByDay = (date: Date) => {
     dispatch({ type: FILTER_BOOKINGS, payload: { date } })
   }
 
-  const filterBookingsByRoom = (room: string) => {
+  const setBookingsByRoom = (room: string) => {
     dispatch({ type: FILTER_BOOKINGS, payload: { room } })
   }
 
@@ -111,8 +110,8 @@ export const BookingProvider = ({ children }) => {
     dialogProps: state.dialog,
     addBooking,
     requestBookings,
-    filterBookingsByDay,
-    filterBookingsByRoom,
+    setBookingsByDay,
+    setBookingsByRoom,
     setError,
     openDialog,
     closeDialog
