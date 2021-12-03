@@ -7,20 +7,33 @@ class Booking < ApplicationRecord
   validates :from, :to, :user_name, :user_mail, :room, presence: true
   # check date validations
 
-  validate :period_not_taken
+  validate :new_booking_is_contained_by_register, :new_booking_contains_register, :to_after_from
 
-  def period_not_taken
-    has_from_between_records =
-      Booking
-      .where('? between bookings.from and bookings.to and ? != bookings.to', from, from)
-      .any?
-    has_to_between_records =
-      Booking
-      .where('? between bookings.from and bookings.to and ? != bookings.from', to, to)
-      .any?
+  private
 
-    return errors.add(:from, :to, message: 'From or To dates are between some record.') if has_from_between_records || has_to_between_records
-
+  def to_after_from
+    if to < from
+      errors.add(:to, message: 'must be after the from time')
+    end
   end
 
+  def new_booking_is_contained_by_register
+    Booking.all.map do |b|
+      booking_range = b.from..b.to
+      if  (booking_range.cover?(from) && from != b.to) ||
+          (booking_range.cover?(to) && to != b.from)
+        errors.add(:from, :to, message: 'From or To dates are between some record.')
+      end
+    end
+  end
+
+  def new_booking_contains_register
+    booking_range = from..to
+    Booking.all.map do |b|
+      if  (booking_range.cover?(b.from) && to != b.from) ||
+          (booking_range.cover?(b.to) && from != b.to)
+        errors.add(:from, :to, message: 'Some record is between from and to datetimes.')
+      end
+    end
+  end
 end
