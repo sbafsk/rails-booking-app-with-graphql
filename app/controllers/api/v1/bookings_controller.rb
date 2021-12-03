@@ -38,7 +38,7 @@ module Api
         if @booking.save
           render json: @booking
         else
-          render json: @booking.errors
+          render json: { error: @booking.errors }
         end
       end
 

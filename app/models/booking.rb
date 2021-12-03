@@ -20,8 +20,7 @@ class Booking < ApplicationRecord
   def booking_doesnt_overlap
     new_booking_range = from..to
     Booking.where('? = bookings.from::date and ? = bookings.room', from.to_date, room).map do |b|
-      register_range = b.from..b.to
-      check_if_contained(b, register_range, from, to)
+      check_if_contained(b, b.from..b.to, from, to)
       check_if_contained(b, new_booking_range, b.from, b.to)
     end
   end
