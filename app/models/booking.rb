@@ -7,29 +7,29 @@ class Booking < ApplicationRecord
   validates :from, :to, :user_name, :user_mail, :room, presence: true
   # check date validations
 
-  validate :booking_doesnt_overlap, :to_after_from
+  validate :to_after_from, :booking_doesnt_overlap
 
   private
 
   def to_after_from
     if to < from
-      errors.add(:to, message: 'must be after the from time')
+      errors.add(:base, message: 'Hora Desde tiene que preceder a Hora Hasta.')
     end
   end
 
   def booking_doesnt_overlap
     new_booking_range = from..to
-    Booking.where('? = bookings.from::date', from.to_date).map do |b|
+    Booking.where('? = bookings.from::date and ? = bookings.room', from.to_date, room).map do |b|
       register_range = b.from..b.to
-      check_if_contained(b, register_range, 'From or To datetime are between some record.')
-      check_if_contained(b, new_booking_range, 'Some record is between from and to datetimes.')
+      check_if_contained(b, register_range, from, to)
+      check_if_contained(b, new_booking_range, b.from, b.to)
     end
   end
 
-  def check_if_contained(register, range, message)
-    if  (range.cover?(register.from) || range.cover?(register.to)) &&
+  def check_if_contained(register, range, from_date, to_date)
+    if  (range.cover?(from_date) || range.cover?(to_date)) &&
         (to != register.from && from != register.to)
-      errors.add(:from, :to, message: message)
+      errors.add(:base, message: 'Horario de reserva ocupado.')
     end
   end
 end
