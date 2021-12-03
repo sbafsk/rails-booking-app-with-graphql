@@ -36,7 +36,7 @@ export const useBookings = (): IUseBookings => {
 const initialState: IBookingState = {
   bookings: [],
   loading: false,
-  filter: { date: new Date(), room: "" },
+  filter: { date: new Date(), room: "sala-grande" },
   error: null,
   dialog: null
 }
@@ -79,12 +79,12 @@ export const BookingProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
       setError(error)
+      dispatch({ type: SET_LOADING, payload: false })
       throw error
     }
   }
 
   const filterBookingsByDay = (date: Date) => {
-    console.log(date)
     dispatch({ type: FILTER_BOOKINGS, payload: { date } })
   }
 
