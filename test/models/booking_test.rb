@@ -9,8 +9,8 @@ class BookingTest < ActiveSupport::TestCase
 
   setup do
     @existing_booking = Booking.create({
-                                         from: DateTime.parse('02 Dec 10AM'),
-                                         to: DateTime.parse('02 Dec 11AM'),
+                                         from: DateTime.parse('02 Dec 13:22'),
+                                         to: DateTime.parse('02 Dec 14:22'),
                                          user_name: 'seba',
                                          user_mail: 'test@test.com',
                                          room: 'sala-1'
@@ -23,8 +23,8 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'when booking is not intersected' do
     new_booking = Booking.new({
-                                from: DateTime.parse('02 Dec 8AM'),
-                                to: DateTime.parse('02 Dec 10AM'),
+                                from: DateTime.parse('02 Dec 8:00'),
+                                to: DateTime.parse('02 Dec 10:00'),
                                 user_name: 'seba',
                                 user_mail: 'test@test.com',
                                 room: 'sala-1'
@@ -35,8 +35,8 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'when booking is partial intersected' do
     new_booking = Booking.new({
-                                from: DateTime.parse('02 Dec 9AM'),
-                                to: DateTime.parse('02 Dec 10:30AM'),
+                                from: DateTime.parse('02 Dec 12:00'),
+                                to: DateTime.parse('02 Dec 13:30'),
                                 user_name: 'seba',
                                 user_mail: 'test@test.com',
                                 room: 'sala-1'
@@ -47,8 +47,8 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'when booking is contained' do
     new_booking = Booking.new({
-                                from: DateTime.parse('02 Dec 10:30AM'),
-                                to: DateTime.parse('02 Dec 11AM'),
+                                from: DateTime.parse('02 Dec 13:45'),
+                                to: DateTime.parse('02 Dec 14:00'),
                                 user_name: 'seba',
                                 user_mail: 'test@test.com',
                                 room: 'sala-1'
@@ -59,8 +59,8 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'when booking is containing a saved book' do
     new_booking = Booking.new({
-                                from: DateTime.parse('02 Dec 9:30AM'),
-                                to: DateTime.parse('02 Dec 11:30AM'),
+                                from: DateTime.parse('02 Dec 13:00'),
+                                to: DateTime.parse('02 Dec 14:30'),
                                 user_name: 'seba',
                                 user_mail: 'test@test.com',
                                 room: 'sala-1'
@@ -71,8 +71,8 @@ class BookingTest < ActiveSupport::TestCase
 
   test 'when booking starts at the same time' do
     new_booking = Booking.new({
-                                from: DateTime.parse('02 Dec 10AM'),
-                                to: DateTime.parse('02 Dec 11:30AM'),
+                                from: DateTime.parse('02 Dec 13:22'),
+                                to: DateTime.parse('02 Dec 14:22'),
                                 user_name: 'seba',
                                 user_mail: 'test@test.com',
                                 room: 'sala-1'
