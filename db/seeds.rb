@@ -13,19 +13,19 @@ Booking.create([{
                  to: DateTime.parse('2021 Dec 8 11'),
                  user_name: 'seba',
                  user_mail: 'test@test.com',
-                 room: 'sala-1'
+                 room: 'sala-grande'
                },
                 {
                   from: DateTime.parse('2021 Dec 8 14'),
                   to: DateTime.parse('2021 Dec 8 16'),
                   user_name: 'seba',
                   user_mail: 'test@test.com',
-                  room: 'sala-1'
+                  room: 'sala-grande'
                 },
                 {
                   from: DateTime.parse('2021 Dec 8 18'),
                   to: DateTime.parse('2021 Dec 8 19'),
                   user_name: 'seba',
                   user_mail: 'test@test.com',
-                  room: 'sala-1'
+                  room: 'sala-grande'
                 }])
