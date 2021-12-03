@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
     [theme.breakpoints.down("md")]: { maxWidth: "90%" },
     [theme.breakpoints.up("md")]: { maxWidth: "35%" }
-  }
+  },
+  sub: { textAlign: "center", display: "block", marginTop: theme.spacing(5) }
 }))
 
 export default function BookingTable() {
@@ -68,7 +69,9 @@ export default function BookingTable() {
           <TableBody>{filteredBookings}</TableBody>
         </Table>
       ) : (
-        <Typography variant="h6">No hay reservas para este día.</Typography>
+        <Typography className={classes.sub} variant="subtitle1">
+          No hay reservas para este día.
+        </Typography>
       )}
     </TableContainer>
   )
