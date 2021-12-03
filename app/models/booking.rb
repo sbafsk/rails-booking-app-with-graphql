@@ -7,7 +7,7 @@ class Booking < ApplicationRecord
   validates :from, :to, :user_name, :user_mail, :room, presence: true
   # check date validations
 
-  validate :new_booking_is_contained_by_register, :new_booking_contains_register, :to_after_from
+  validate :booking_doesnt_overlap, :to_after_from
 
   private
 
@@ -17,23 +17,19 @@ class Booking < ApplicationRecord
     end
   end
 
-  def new_booking_is_contained_by_register
-    Booking.all.map do |b|
-      booking_range = b.from..b.to
-      if  (booking_range.cover?(from) && from != b.to) ||
-          (booking_range.cover?(to) && to != b.from)
-        errors.add(:from, :to, message: 'From or To dates are between some record.')
-      end
+  def booking_doesnt_overlap
+    new_booking_range = from..to
+    Booking.where('? = bookings.from::date', from.to_date).map do |b|
+      register_range = b.from..b.to
+      check_if_contained(b, register_range, 'From or To datetime are between some record.')
+      check_if_contained(b, new_booking_range, 'Some record is between from and to datetimes.')
     end
   end
 
-  def new_booking_contains_register
-    booking_range = from..to
-    Booking.all.map do |b|
-      if  (booking_range.cover?(b.from) && to != b.from) ||
-          (booking_range.cover?(b.to) && from != b.to)
-        errors.add(:from, :to, message: 'Some record is between from and to datetimes.')
-      end
+  def check_if_contained(register, range, message)
+    if  (range.cover?(register.from) || range.cover?(register.to)) &&
+        (to != register.from && from != register.to)
+      errors.add(:from, :to, message: message)
     end
   end
 end
