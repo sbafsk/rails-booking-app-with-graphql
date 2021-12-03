@@ -24,4 +24,5 @@ export const postBooking = async (booking: IBooking) => {
   if (!response.ok) throw new Error("Error al crear la reserva.")
   const data = await response.json()
   console.log(data)
+  if (data.base) throw new Error(data.base)
 }
