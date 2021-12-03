@@ -95,8 +95,8 @@ export const BookingProvider = ({ children }) => {
     dispatch({ type: SET_ERROR, payload: error })
   }
 
-  const openDialog = (dialogProps: IDialogProps) => {
-    dispatch({ type: SET_DIALOG, payload: dialogProps })
+  const openDialog = (dialogProps) => {
+    dispatch({ type: SET_DIALOG, payload: { ...dialogProps, open: true } })
   }
 
   const closeDialog = () => {

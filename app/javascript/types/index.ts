@@ -53,6 +53,7 @@ export interface IBookingState {
  * @param message
  */
 export interface IDialogProps {
+  open: boolean
   severity: string
   message: string
 }
@@ -67,7 +68,7 @@ export interface IDialogProps {
  * @param setBookingsByDay: (day: Date) => void
  * @param setBookingsByRoom: (room: string) => void
  * @param setError: (error: null | string) => void
- * @param openDialog: (dialogProps: IDialogProps) => void
+ * @param openDialog: (dialogProps) => void
  * @param closeDialog: () => void
  */
 
@@ -81,7 +82,7 @@ export interface IUseBookings {
   setBookingsByDay: (day: Date) => void
   setBookingsByRoom: (room: string) => void
   setError: (error: null | string) => void
-  openDialog: (dialogProps: IDialogProps) => void
+  openDialog: (dialogProps) => void
   closeDialog: () => void
 }
 

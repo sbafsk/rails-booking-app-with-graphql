@@ -12,8 +12,8 @@ export default function Notification({ open, message, severity }) {
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       open={open}
-      onClose={closeDialog}
-      autoHideDuration={2000}
+      onClose={() => closeDialog()}
+      autoHideDuration={4000}
     >
       <Alert elevation={6} variant="filled" severity={severity}>
         {message}

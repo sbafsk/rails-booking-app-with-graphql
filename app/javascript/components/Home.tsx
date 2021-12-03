@@ -48,7 +48,7 @@ const Home = () => {
           FIC - Cowork | Reserva Salas
         </Typography>
         <Bookings />
-        <Notification open={!!dialogProps} {...dialogProps} />
+        {!!dialogProps && <Notification {...dialogProps} />}
       </Box>
     </Container>
   )
