@@ -11,18 +11,23 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#000"
+    backgroundColor: "#000",
+    [theme.breakpoints.down("md")]: { minHeight: "100vh" },
+    [theme.breakpoints.up("md")]: { height: "100vh" },
+    overflow: "scroll"
   },
   mainBox: {
     border: "solid 1px #666",
     borderRadius: "15px",
-    width: theme.spacing(80),
     backgroundColor: "#FFF",
+    margin: theme.spacing(10) + "px auto",
     [theme.breakpoints.down("md")]: {
-      height: theme.spacing(80)
+      minHeight: theme.spacing(80),
+      width: "100%"
     },
     [theme.breakpoints.up("md")]: {
-      height: theme.spacing(60)
+      height: theme.spacing(60),
+      width: theme.spacing(100)
     }
   },
   title: {
