@@ -13,7 +13,7 @@ export default function Notification({ open, message, severity }) {
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       open={open}
       onClose={closeDialog}
-      autoHideDuration={6000}
+      autoHideDuration={2000}
     >
       <Alert elevation={6} variant="filled" severity={severity}>
         {message}

@@ -17,8 +17,8 @@ import { useBookings } from "../../context"
 import { IBookingForm } from "../../types"
 
 const rooms = [
-  { name: "Sala 1", value: "sala-1" },
-  { name: "Sala 2", value: "sala-2" }
+  { name: "sala grande", value: "sala-grande" },
+  { name: "sala chica", value: "sala-chica" }
 ]
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: { maxWidth: "90%" },
-    [theme.breakpoints.up("md")]: { maxWidth: "45%" },
+    [theme.breakpoints.up("md")]: { maxWidth: "55%" },
     "& .MuiFormControl-root": {
       margin: "15px 0"
     },
@@ -75,13 +75,13 @@ export default function BookingForm() {
         message: error.message
       })
     }
-
+    actions.setSubmitting(false)
     actions.resetForm(initialValues)
   }
 
   const initialValues: IBookingForm = {
-    room: "sala-1",
-    name: "asd",
+    room: filter.room,
+    name: "",
     email: "not@implemented.yet",
     day: moment(filter.date).format("yyyy-MM-DD"),
     fromTime: "",
@@ -117,7 +117,7 @@ export default function BookingForm() {
                 label="Sala"
                 select
                 id="room"
-                // variant="outlined"
+                variant="outlined"
                 value={values.room}
                 onChange={handleChange("room")}
                 error={touched.room && Boolean(errors.room)}
@@ -138,7 +138,7 @@ export default function BookingForm() {
                 label="Día"
                 type="date"
                 name="day"
-                // variant="outlined"
+                variant="standard"
                 value={values.day}
                 onChange={handleChange("day")}
                 InputLabelProps={{
@@ -152,7 +152,7 @@ export default function BookingForm() {
                 name="fromTime"
                 label="Desde"
                 type="time"
-                // variant="outlined"
+                variant="standard"
                 value={values.fromTime}
                 onChange={handleChange("fromTime")}
                 InputLabelProps={{
@@ -169,7 +169,7 @@ export default function BookingForm() {
                 name="toTime"
                 label="Hasta"
                 type="time"
-                // variant="outlined"
+                variant="standard"
                 value={values.toTime}
                 onChange={handleChange("toTime")}
                 InputLabelProps={{
@@ -186,7 +186,7 @@ export default function BookingForm() {
               id="name"
               name="name"
               label="Nombre"
-              //  variant="outlined"
+              variant="outlined"
               value={values.name}
               onChange={handleChange("name")}
               error={touched.name && Boolean(errors.name)}
@@ -204,7 +204,7 @@ export default function BookingForm() {
             /> */}
             <Button
               type="submit"
-              // variant="contained"
+              variant="outlined"
               disabled={isSubmitting || isLoading}
             >
               Guardar
