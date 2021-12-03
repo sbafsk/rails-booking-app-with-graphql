@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Container, Typography, makeStyles } from "@material-ui/core"
+import { Box, Typography, makeStyles } from "@material-ui/core"
 
 import Bookings from "./Bookings/Bookings"
 import Notification from "./UI/Notification"
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       width: "100%"
     },
     [theme.breakpoints.up("md")]: {
-      height: theme.spacing(60),
+      height: theme.spacing(80),
       width: theme.spacing(100)
     }
   },
@@ -42,7 +42,7 @@ const Home = () => {
 
   const classes = useStyles()
   return (
-    <Container className={classes.wrapper}>
+    <Box className={classes.wrapper}>
       <Box className={classes.mainBox}>
         <Typography className={classes.title} variant="h1">
           FIC - Cowork | Reserva Salas
@@ -50,7 +50,7 @@ const Home = () => {
         <Bookings />
         {!!dialogProps && <Notification {...dialogProps} />}
       </Box>
-    </Container>
+    </Box>
   )
 }
 
