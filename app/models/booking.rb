@@ -26,7 +26,6 @@ class Booking < ApplicationRecord
     query_bookings.map do |b|
       check_if_contained(b, b.from..b.to, from, to)
       check_if_contained(b, new_booking_range, b.from, b.to)
-      break if errors.key?(:base)
     end
   end
 
