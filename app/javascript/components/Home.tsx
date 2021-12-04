@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     backgroundColor: "#000",
     [theme.breakpoints.down("md")]: { minHeight: "100vh" },
-    [theme.breakpoints.up("md")]: { height: "100vh" },
+    [theme.breakpoints.up("sm")]: { height: "100vh" },
     overflow: "scroll"
   },
   mainBox: {
@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(10) + "px auto",
     [theme.breakpoints.down("md")]: {
       minHeight: theme.spacing(80),
-      width: "100%"
+      width: "90%"
     },
-    [theme.breakpoints.up("md")]: {
-      height: theme.spacing(80),
+    [theme.breakpoints.up("sm")]: {
+      minHeight: "80%",
       width: theme.spacing(100)
     }
   },

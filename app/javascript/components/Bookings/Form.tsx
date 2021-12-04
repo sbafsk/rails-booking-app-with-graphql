@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: { maxWidth: "90%" },
-    [theme.breakpoints.up("md")]: { maxWidth: "55%" },
-    "& .MuiFormControl-root": {
-      margin: "15px 0"
+    [theme.breakpoints.up("sm")]: { maxWidth: "55%" },
+    "& .MuiTextField-root ": {
+      margin: "20px 0"
     },
     "& .MuiFormHelperText-root": {
       position: "absolute",

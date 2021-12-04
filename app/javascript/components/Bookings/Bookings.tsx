@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     justifyContent: "space-evenly",
     [theme.breakpoints.down("md")]: { flexDirection: "column" },
-    [theme.breakpoints.up("md")]: { flexDirection: "row" }
+    [theme.breakpoints.up("sm")]: { flexDirection: "row" }
   }
 }))
 

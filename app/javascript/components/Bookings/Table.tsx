@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography
 } from "@material-ui/core"
+import { capitalize } from "lodash"
 import moment from "moment"
 
 moment.locale("es")
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     margin: theme.spacing(3),
     [theme.breakpoints.down("md")]: { maxWidth: "90%" },
-    [theme.breakpoints.up("md")]: { maxWidth: "35%" }
+    [theme.breakpoints.up("sm")]: { maxWidth: "35%" }
   },
   sub: { textAlign: "center", display: "block", marginTop: theme.spacing(5) }
 }))
@@ -47,7 +48,7 @@ export default function BookingTable() {
               {moment(b.to).format("HH:mm")}
             </TableCell>
             <TableCell>{b.userName}</TableCell>
-            <TableCell>{b.room.replace("-", " ")}</TableCell>
+            <TableCell>{capitalize(b.room.split("-")[1])}</TableCell>
           </TableRow>
         )
       })
