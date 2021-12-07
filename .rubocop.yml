@@ -13,7 +13,10 @@ AllCops:
   NewCops: enable
 
 Style/Encoding:
-  Enabled: false
+  Enabled: true
 
 Layout/LineLength:
   Max: 99
+
+Documentation:
+  Enabled: false
