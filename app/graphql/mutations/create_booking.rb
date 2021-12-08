@@ -9,16 +9,19 @@ module Mutations
     argument :room, String, required: true
 
     # return type from the mutation
-    type Types::BookingType
+    #type Types::BookingType
+
+    field :booking, Types::BookingType, null: false
 
     def resolve(from: nil, to: nil, user_name: nil, user_mail: nil, room: nil)
-      Booking.create!(
+      booking = Booking.create!(
         from: from,
         to: to,
         user_name: user_name,
         user_mail: user_mail,
-        room: room,
+        room: room
       )
+      { booking: booking }
     end
   end
 end
